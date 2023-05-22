@@ -5,7 +5,22 @@ public class Member {
 	private String memberPw;
 	private String memberName;
 	private String memberAuth;
+	//계좌 조인을 위한 필드 추가
+	private String accountId;
+	private int accountBallance;
 	
+	public String getAccountId() {
+		return accountId;
+	}
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
+	}
+	public int getAccountBallance() {
+		return accountBallance;
+	}
+	public void setAccountBallance(int accountBallance) {
+		this.accountBallance = accountBallance;
+	}
 	public String getMemberId() {
 		return memberId;
 	}

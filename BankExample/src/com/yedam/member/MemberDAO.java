@@ -1,5 +1,8 @@
 package com.yedam.member;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.yedam.common.DAO;
 
 public class MemberDAO extends DAO {
@@ -11,7 +14,7 @@ public class MemberDAO extends DAO {
 	
 	public static MemberDAO getInstance() {
 		if(memberDao == null) {
-			MemberDAO memberDao = new MemberDAO();
+			memberDao = new MemberDAO();
 		}
 		return memberDao;
 	}
@@ -30,10 +33,10 @@ public class MemberDAO extends DAO {
 			
 			if(rs.next()) {
 				member = new Member();
-				member.setMemberId("member_id");
-				member.setMemberName("member_name");
-				member.setMemberPw("member_pw");
-				member.setMemberAuth("member_auth");
+				member.setMemberId(rs.getString("member_id"));
+				member.setMemberName(rs.getString("member_name"));
+				member.setMemberPw(rs.getString("member_pw"));
+				member.setMemberAuth(rs.getString("member_auth"));
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -41,5 +44,35 @@ public class MemberDAO extends DAO {
 			disconn();
 		}
 		return member;
+	}
+	
+	//고객 계좌 정보 조회
+	public List<Member> getAccountInfo() {
+		List<Member> list = new ArrayList<>();
+		Member member = null;
+		
+		try {
+			conn();
+			String sql = "SELECT a.member_id, a.account_id, a.account_balance, m.member_name, m.member_auth FROM account a JOIN member m \r\n"
+					+ "ON a.member_id = m.member_id WHERE a.member_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, MemberService.memberInfo.getMemberId());
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				member = new Member();
+				member.setMemberId(rs.getString("member_id"));
+				member.setAccountId(rs.getString("account_id"));
+				member.setAccountBallance(rs.getInt("account_balance"));
+				member.setMemberName(rs.getString("member_name"));
+				member.setMemberAuth(rs.getString("member_auth"));
+				list.add(member);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
+		return list;
 	}
 }

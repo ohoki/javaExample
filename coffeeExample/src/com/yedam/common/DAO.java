@@ -25,7 +25,7 @@ public class DAO {
 	//DB 접속 정보
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	String id = "c##bank";
+	String id = "c##test2";
 	String pw = "1234";
 	
 	//DB 연결 메소드 // 변수와 메소드의 이름이 같아도 상관없음 (저장 장소가 다름)
